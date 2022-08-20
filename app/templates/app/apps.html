@@ -1,0 +1,23 @@
+
+{% extends "main/base.html" %}
+{% block text %}
+<div>
+    <form method="post" action="{% url 'app' %}">
+{% csrf_token %}
+
+<p>Поиск</p><input type="text" name="text" class="text" required>
+
+
+<button type="submit" class="but">Найти</button>
+    {%for i in apps%}
+
+    <a href="{% url 'apps-detail' i.id %}"><p>{{i.name}}</p></a>
+    <img src="/media/{{i.img}}" alt="1">
+
+
+     {% endfor %}
+
+</div>
+
+
+{% endblock %}

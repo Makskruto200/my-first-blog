@@ -1,0 +1,35 @@
+{% extends "main/base.html" %}
+
+{% block text %}
+
+
+<p>Здраствуйте,{{username}}</p>
+
+<p>Ваши коментарии:</p>
+<hr>
+{%for comment in comments%}
+        <p  style="color:blue;">{{comment.name}}</p>
+        <p>{{comment.body}}</p>
+        <hr>
+
+{%endfor%}
+<p>Ваши заявки:</p>
+<hr>
+{%for apps in applications%}
+    <p>{{apps.name}}</p>
+    <img src="/media/{{apps.img}}" alt="1">
+    <p>Автор:{{apps.author}}</p>
+    <p>{{apps.text}}</p>
+    <video controls>
+        <source src="/media/{{apps.video}}" >
+
+        Your browser does not support the video tag.
+    </video>
+    <p>{{apps.date}}</p>
+    <p><a href="/media/{{apps.file}}" download>Скачать</a></p>
+    <hr>
+
+{%endfor%}
+
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
+</head>
+<body>
+
+     <div id="menu"><span>
+
+         <center>
+             <a href="{% url 'home' %}" class="a"><img src="https://cdn-icons-png.flaticon.com/512/684/684834.png" width="100px" alt="1"></a>
+             <a href="{% url 'about' %}" class="a"><img src="https://cdn-icons-png.flaticon.com/512/684/684802.png" width="100px" alt="1"></a>
+             <a href="{% url 'login' %}" class="a"><img src="https://cdn-icons-png.flaticon.com/512/684/684837.png" width="100px" alt="1"></a>
+             <a href="{% url 'app' %}" class="a"><img src="https://img.icons8.com/tiny-glyph/344/experimental-windows-client-tiny-glyph.png" width="100px" alt="1"></a>
+             <a href="{% url 'add' %}" class="a"><img src="https://cdn.icon-icons.com/icons2/1206/PNG/512/1491254405-plusaddmoredetail_82972.png" width="100px" alt="1"></a>
+         </center>
+     </span></div>
+
+
+    {% block text %}{% endblock %}
+</body>
+</html>

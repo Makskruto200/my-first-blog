@@ -1,0 +1,52 @@
+
+
+
+{% extends "main/base.html" %}
+{% block text %}
+
+    <p>{{apps.name}}</p>
+    <img src="/media/{{apps.img}}" alt="1">
+    <p>Автор:{{apps.author}}</p>
+    <p>{{apps.text}}</p>
+    {%if apps.Editor_Choice%}
+        <p  style="color:blue;">Выбор редакции</p>
+    {%endif%}
+
+    <video controls>
+        <source src="/media/{{apps.video}}" >
+
+        Your browser does not support the video tag.
+    </video>
+
+
+    <p>{{apps.date}}</p>
+    <p><a href="/media/{{apps.file}}" download>Скачать</a></p>
+    <p>Коментарии:</p>
+    <hr>
+    <p>Написать коментарий</p>
+    <form action="{% url 'comments_creade' %}" method="post">
+        {% csrf_token %}
+
+
+        <textarea name="text" id="" cols="30" rows=10" class="text"></textarea><br>
+        <input type="text" name="id" value="{{apps.id}}" style="display:none;">
+
+        <button type="submit" class="but">Оставить коментарий</button>
+
+
+    </form>
+    <hr>
+
+
+    {% for comment in apps.comments.all %}
+        <p  style="color:blue;">{{comment.name}}</p>
+        <p>{{comment.body}}</p>
+        <hr>
+
+
+    {%endfor%}
+
+
+
+
+{% endblock %}
