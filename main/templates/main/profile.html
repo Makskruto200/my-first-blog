@@ -10,6 +10,9 @@
 {%for comment in comments%}
         <p  style="color:blue;">{{comment.name}}</p>
         <p>{{comment.body}}</p>
+        <a href="/app/update-comment?comment={{comment.id}}"><p>Редактировать</p></a>
+        <a href="/app/delete-comment?comment={{comment.id}}"><p style="color:red;">Удалить</p></a>
+
         <hr>
 
 {%endfor%}
@@ -27,6 +30,28 @@
     </video>
     <p>{{apps.date}}</p>
     <p><a href="/media/{{apps.file}}" download>Скачать</a></p>
+    <a href="/app/update-applications?app={{apps.id}}"><p>Редактировать</p></a>
+    <a href="/app/delete-applications?app={{apps.id}}"><p style="color:red;">Удалить</p></a>
+
+    <hr>
+
+{%endfor%}
+<p>Ваши приложения:</p>
+<hr>
+{%for app in apps%}
+    <p>{{app.name}}</p>
+    <img src="/media/{{app.img}}" alt="1">
+    <p>Автор:{{app.author}}</p>
+    <p>{{app.text}}</p>
+    <video controls>
+        <source src="/media/{{app.video}}" >
+
+        Your browser does not support the video tag.
+    </video>
+    <p>{{app.date}}</p>
+    <p><a href="/media/{{app.file}}" download>Скачать</a></p>
+    <a href="/app/update-app?app={{app.id}}"><p>Редактировать</p></a>
+    <a href="/app/delete-app?app={{app.id}}"><p style="color:red;">Удалить</p></a>
     <hr>
 
 {%endfor%}

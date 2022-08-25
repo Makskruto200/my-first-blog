@@ -1,12 +1,57 @@
 from django.shortcuts import render, redirect
 from .models import Apps, Comment, Applications
 from django.views.generic import DetailView
-from .forms import AppsForm
+from .forms import AppsForm, CommentForm
 
 
-def update_app(request):
+def delete_comment(request):
+    comment = Comment.objects.get(id=request.GET.get('comment'))
+    if request.session['name'] == comment.name:
+        comment.delete()
+
+    return redirect('/app/profile')
+
+
+
+def delete_applications(request):
+    applications = Applications.objects.get(id=request.GET.get('app'))
+    if request.session['name'] == applications.author:
+        applications.delete()
+
+    return redirect('/app/profile')
+
+
+def delete_app(request):
     app = Apps.objects.get(id=request.GET.get('app'))
-    print(app)
+    if request.session['name'] == app.author:
+        app.delete()
+
+    return redirect('/app/profile')
+
+
+def update_comment(request):
+    comment = Comment.objects.get(id=request.GET.get('comment'))
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            if request.session['name'] == comment.name:
+
+                comment.body = form.cleaned_data['body']
+                comment.save()
+            return redirect('/app/profile')
+    else:
+        form = CommentForm(initial={
+            'body': comment.body,
+
+                                 })
+    return render(request, 'app/add.html', {'form': form, 'user': request.session['name']})
+
+
+
+
+
+def update_applications(request):
+    app = Applications.objects.get(id=request.GET.get('app'))
     if request.method == 'POST':
         form = AppsForm(request.POST, request.FILES)
         if form.is_valid():
@@ -18,7 +63,33 @@ def update_app(request):
                 app.img = form.cleaned_data['img']
                 app.video = form.cleaned_data['video']
                 app.save()
-            return redirect('/')
+            return redirect('/app/profile')
+    else:
+        form = AppsForm(initial={
+            'name': app.name,
+            'text': app.text,
+            'file': app.file,
+            'img': app.img,
+            'video': app.video,
+                                 })
+    return render(request, 'app/add.html', {'form': form, 'user': request.session['name']})
+
+
+
+def update_app(request):
+    app = Apps.objects.get(id=request.GET.get('app'))
+    if request.method == 'POST':
+        form = AppsForm(request.POST, request.FILES)
+        if form.is_valid():
+            if request.session['name'] == app.author:
+
+                app.name = form.cleaned_data['name']
+                app.text = form.cleaned_data['text']
+                app.file = form.cleaned_data['file']
+                app.img = form.cleaned_data['img']
+                app.video = form.cleaned_data['video']
+                app.save()
+            return redirect('/app/profile')
     else:
         form = AppsForm(initial={
             'name': app.name,
@@ -61,7 +132,8 @@ def comments_creade(request):
 def profile(request):
     data = {'username': request.session['name'],
             'comments': Comment.objects.filter(name=request.session['name']),
-            'applications': Applications.objects.filter(author=request.session['name']), }
+            'applications': Applications.objects.filter(author=request.session['name']),
+            'apps': Apps.objects.filter(author=request.session['name']),}
     return render(request, 'main/profile.html', data)
 
 
